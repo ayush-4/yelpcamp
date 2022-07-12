@@ -6,7 +6,7 @@ const Review = require('./models/review');
 module.exports.isLoggedIn = (req,res,next) => {
   if(!req.isAuthenticated()){
     req.session.returnTo = req.originalUrl;
-    req.flash('error','Pehle LOGIN Kr le bhai!!');
+    req.flash('error','You have to login first!!');
     return res.redirect('/login');
   }
   next();
@@ -26,7 +26,7 @@ module.exports.isAuthor = async(req,res,next)=>{
   const { id } = req.params;
   const campground = await Campground.findById(id);
   if(!campground.author.equals(req.user._id)){
-      req.flash('error','Aapko Permission Lena Chahiye na?');
+      req.flash('error','You are not authorized to do this!');
       return res.redirect(`/campgrounds/${id}`);
   }
   next();
